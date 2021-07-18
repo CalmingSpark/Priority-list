@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<meta charset='UTF-8'>
+	<title>PrioList</title>
+	<link href="minimal_table.css" rel="stylesheet" type="text/css">
+<body> 
+	<table id="rootTable">
+	<table class="sortable-table">
+	<thead>
+		<tr>
+			<th>Проект</th>
+			<th>Описание задачи</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Проект_1</td>
+			<td>WWW HTML ru - у нас Вы найдете html уроки, html теги. Также Вы можете скачать программы для верстки, учебники по html ... Для любого Имаги можно задать пустые</td>
+			<td><button><img src="Check_mark.png"></button><button><img src="Edit.png"></button></td>
+		</tr>
+		<tr>
+			<td>Проект_2</td>
+			<td>Описание_2</td>
+			<td><button><img src="Check_mark.png"></button><button><img src="Edit.png"></button></td>
+		</tr>
+		<tr>
+			<td>Проект_3</td>
+			<td>Описание_3</td>
+			<td><button><img src="Check_mark.png"></button><button><img src="Edit.png"></button></td>
+		</tr>
+				<tr>
+			<td>Проект_4</td>
+			<td>WWW HTML ru - у нас Вы найдете html уроки, html теги. Также Вы можете скачать программы для верстки, учебники по html ... Для любого Имаги можно задать пустые</td>
+			<td><button><img src="Check_mark.png"></button><button><img src="Edit.png"></button></td>
+		</tr>
+		<tr>
+			<td>Проект_5</td>
+			<td>Описание_2</td>
+			<td><button><img src="Check_mark.png"></button><button><img src="Edit.png"></button></td>
+		</tr>
+		<tr>
+			<td>Проект_3</td>
+			<td>Описание_3</td>
+			<td><button><img src="Check_mark.png"></button><button><img src="Edit.png"></button></td>
+		</tr>
+	</tbody>
+</table>
+<div class="elements">
+	<button><img src="Add_big.png"></button>
+</div><div>
+
+<script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://snipp.ru/cdn/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script>
+var fixHelper = function(e, ui) {
+	ui.children().each(function() {
+		$(this).width($(this).width());
+	});
+	return ui;
+};	
+
+$('.sortable-table tbody').sortable({
+	helper: fixHelper
+});
+</script>
+</body>
+</html>
