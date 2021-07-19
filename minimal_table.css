@@ -5,7 +5,7 @@ body { background-color: #ac7e59; }
   float: left;
   margin: 10px auto;
   margin-left:7%;
-  width: 85%;
+  width: 82%;
   border-collapse: separate; 
   border-spacing: 0px 12px;
 }
@@ -69,8 +69,14 @@ body { background-color: #ac7e59; }
 
 .elements {
   margin-top: 50px; 
+  margin-right: 10px; 
   float:right;
 }
+
+li {
+    list-style-type: none;
+    line-height: 3;
+   }
 
 button {
   display: inline-block;
