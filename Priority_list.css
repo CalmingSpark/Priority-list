@@ -73,6 +73,72 @@ body { background-color: #ac7e59; }
   float:right;
 }
 
+
+/*//////////////////////////////////////////////*/
+
+
+.added-table {
+  float: left;
+  margin: 10px auto;
+  margin-left:7%;
+  width: 82%;
+  border-collapse: separate; 
+  border-spacing: 0px 12px;
+}
+.added-table td {
+  font-family: "Arial";
+  font-weight:bold;
+  background: #387051;   
+  color: #ddd;
+  overflow: hidden;
+  padding: 6px 10px;
+  font-size: 20px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.added-table > tbody > tr > td:first-child {
+  color: #ddd;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  width: 20%;
+}
+.added-table > tbody > tr > td:nth-child(2) {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  width: 70%;
+  height: 70px;
+}
+.added-table > tbody > tr > td:last-child {
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  width: 10%;
+  text-align: center;
+  background: #468d66;
+}
+
+.added-table th {
+  padding: 10px;
+  border: 1px solid #ddd;
+  background: #efefef;
+  font-weight: bold;
+}
+
+textarea {
+  font-family: "Arial";
+  font-weight:bold;
+  background-color: transparent;  
+  color: #ddd;
+  overflow: hidden;
+  padding: 6px 10px;
+  font-size: 20px;
+  width: 100%;
+  border: none;
+  outline:none;
+}
+
 li {
     list-style-type: none;
     line-height: 3;
@@ -83,4 +149,13 @@ button {
   outline: none;
   border: 0;
   background: transparent;
+}
+
+button:hover {
+  background: transparent;
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px #8bc5a5;
 }
