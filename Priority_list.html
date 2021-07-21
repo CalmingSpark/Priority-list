@@ -12,7 +12,7 @@
 			<th></th>
 		</tr>
 	</thead>
-	<tbody id="tbody">
+	<tbody id="tMainBody">
 		<tr>
 			<td>Проект_1</td>
 			<td>Описание_1</td>
@@ -41,38 +41,86 @@
 	</table>
 
 	<script type="text/javascript">
+		var isAdd = false; 
 		document.getElementById("addRow").onclick = function() {
-			var tbody = document.getElementById('addtbody');
+			if (!isAdd) {
+				var tbody = document.getElementById('addtbody');
+			    var row = document.createElement("tr");
+			    var td1 = document.createElement("td");
+			    var td2 = document.createElement("td");
+			    var td3 = document.createElement("td");
+
+			    var input_progect = document.createElement('TEXTAREA');
+			    td1.appendChild(input_progect);
+
+			    var input_description = document.createElement('TEXTAREA');
+			    td2.appendChild(input_description);
+
+			    btn_waiting = document.createElement('button');
+			    btn_waiting.id = 'wait';
+			    btn_waiting.addEventListener('click', function() {
+				    var a = this.closest('tr');
+				    a.parentElement.removeChild(a);
+				    isAdd = false;
+				  });
+			    btn_waiting.innerHTML = '<img src="resources/Close.png" />';
+			    td3.appendChild(btn_waiting);
+
+			    btn_check = document.createElement('button');
+			    btn_check.id = 'add';
+			    btn_check.addEventListener('click', function() {
+				    AddMaintbl(input_progect.value, input_description.value);
+				    var a = this.closest('tr');
+				    a.parentElement.removeChild(a);
+				    isAdd = false;
+				  });
+			    btn_check.innerHTML = '<img src="resources/Check_mark_add.png" />';
+			    td3.appendChild(btn_check);
+
+			    row.appendChild(td1);
+			    row.appendChild(td2);
+			    row.appendChild(td3);
+			    tbody.appendChild(row);
+			    isAdd = true;
+			}
+		}
+		function AddMaintbl(input_progect, input_description) {
+			var tbody = document.getElementById('tMainBody');
 		    var row = document.createElement("tr");
 		    var td1 = document.createElement("td");
+		    td1.appendChild(document.createTextNode(input_progect));
 		    var td2 = document.createElement("td");
+		    td2.appendChild(document.createTextNode(input_description));
 		    var td3 = document.createElement("td");
 
-		    var input_progect = document.createElement('TEXTAREA');
-			input_progect.setAttribute('input_progect', 'post');
-		    td1.appendChild(input_progect);
-
-		    var description_id = document.createElement('TEXTAREA');
-		    description_id.setAttribute('description_id', 'posst');
-		    td2.appendChild(description_id);
-
 		    btn_waiting = document.createElement('button');
-		    btn_waiting.id = 'wait';
-		    btn_waiting.onclick = function(){alert("Это второй способ реализации Onclick в JavaScript и вывод через alert");};
-		    btn_waiting.innerHTML = '<img src="resources/Close.png" />';
+		    btn_waiting.id = 'check';
+		    btn_waiting.innerHTML = '<img src="resources/Check_mark.png" />';
 		    td3.appendChild(btn_waiting);
 
 		    btn_check = document.createElement('button');
-		    btn_check.innerHTML = '<img src="resources/Check_mark_add.png" />';
+		    btn_check.id = 'edit';
+		    btn_check.innerHTML = '<img src="resources/Edit.png" />';
 		    td3.appendChild(btn_check);
 
 		    row.appendChild(td1);
 		    row.appendChild(td2);
 		    row.appendChild(td3);
 		    tbody.appendChild(row);
-
-
-/*		    row.innerHTML = '<td><textarea id="input_progect" type="text" id="progect_id" placeholder="enter progect"></textarea></td> <td><textarea id="input_description" type="text" id="description_id" placeholder="enter description"></textarea></td> <td> <button id = "waiting"><img src="resources/Check_mark_add.png"></button><button id = "close"><img src="resources/Close.png"></button> </td>';*/
+		}
+		document.getElementById("save").onclick = function() {
+			let result = [];
+			let table = document.getElementById("tMainBody").getElementsByTagName("tbody")[0];
+			let trs = table.getElementsByTagName("tr");
+			for (let i = 2; i < trs.length; i++) {
+			    let tds = trs[i].getElementsByTagName("td");
+			    let obj = {};
+			      obj.name = tds[0].innerHTML;
+			      obj.rank = tds[1].innerHTML;
+			      obj.phone = tds[2].innerHTML;
+			      result.push(obj);
+		  	}
+		  	return JSON.stringify(result);
 		}
 	</script>	
 	<script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
