@@ -56,16 +56,6 @@
 			    var input_description = document.createElement('TEXTAREA');
 			    td2.appendChild(input_description);
 
-			    btn_waiting = document.createElement('button');
-			    btn_waiting.id = 'wait';
-			    btn_waiting.addEventListener('click', function() {
-				    var a = this.closest('tr');
-				    a.parentElement.removeChild(a);
-				    isAdd = false;
-				  });
-			    btn_waiting.innerHTML = '<img src="resources/Close.png" />';
-			    td3.appendChild(btn_waiting);
-
 			    btn_check = document.createElement('button');
 			    btn_check.id = 'add';
 			    btn_check.addEventListener('click', function() {
@@ -76,6 +66,16 @@
 				  });
 			    btn_check.innerHTML = '<img src="resources/Check_mark_add.png" />';
 			    td3.appendChild(btn_check);
+
+			    btn_waiting = document.createElement('button');
+			    btn_waiting.id = 'wait';
+			    btn_waiting.addEventListener('click', function() {
+				    var a = this.closest('tr');
+				    a.parentElement.removeChild(a);
+				    isAdd = false;
+				  });
+			    btn_waiting.innerHTML = '<img src="resources/Close.png" />';
+			    td3.appendChild(btn_waiting);
 
 			    row.appendChild(td1);
 			    row.appendChild(td2);
