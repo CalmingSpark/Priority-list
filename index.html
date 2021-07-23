@@ -13,20 +13,11 @@
 		</tr>
 	</thead>
 	<tbody id="tMainBody">
-		<tr>
-			<td>Проект_1</td>
-			<td>Описание_1</td>
-			<td><button id = "check"><img src="resources/Check_mark.png"></button><button id = "edit"><img src="resources/Edit.png"></button></td>
-		</tr>
-		<tr>
-			<td>Проект_2</td>
-			<td>Описание_2</td>
-			<td><button id = "check"><img src="resources/Check_mark.png"></button><button id = "edit"><img src="resources/Edit.png"></button></td>
-		</tr>
 	</tbody>
 	</table>
 	<div class="elements">
 		<ul>
+		<li><button id = "closeWindow"><img src="resources/CloseWindow.png"></button></li>
 		<li><button id = "addRow"><img src="resources/Add.png"></button></li>
 		<li><button id = "addRow"><img src="resources/Waiting.png"></button></li>
 		<li><button id = "settings"><img src="resources/Settings.png"></button></li>
@@ -41,6 +32,38 @@
 	</table>
 
 	<script type="text/javascript">
+		const fs = require('fs');
+		window.addEventListener('load', function() {
+			fs.readFile("input_File.json", "utf8", function(error,data){ 
+			if(error) throw error; 
+			parsingFile(data);
+			});
+		})
+
+		function parsingFile(data) {
+			var tbody = document.getElementById('tMainBody');
+		    var row = document.createElement("tr");
+		    var td1 = document.createElement("td");
+		    var td2 = document.createElement("td");
+		    var td3 = document.createElement("td");
+
+
+			btn_waiting = document.createElement('button');
+		    btn_waiting.id = 'check';
+		    btn_waiting.innerHTML = '<img src="resources/Check_mark.png" />';
+		    td3.appendChild(btn_waiting);
+
+		    btn_check = document.createElement('button');
+		    btn_check.id = 'edit';
+		    btn_check.innerHTML = '<img src="resources/Edit.png" />';
+		    td3.appendChild(btn_check);
+
+		    row.appendChild(td1);
+		    row.appendChild(td2);
+		    row.appendChild(td3);
+			tbody.appendChild(row);
+		}
+
 		var isAdd = false; 
 		document.getElementById("addRow").onclick = function() {
 			if (!isAdd) {
@@ -107,21 +130,49 @@
 		    row.appendChild(td2);
 		    row.appendChild(td3);
 		    tbody.appendChild(row);
+		    Save();
 		}
 		document.getElementById("save").onclick = function() {
-			let result = [];
-			let table = document.getElementById("tMainBody").getElementsByTagName("tbody")[0];
-			let trs = table.getElementsByTagName("tr");
-			for (let i = 2; i < trs.length; i++) {
-			    let tds = trs[i].getElementsByTagName("td");
-			    let obj = {};
-			      obj.name = tds[0].innerHTML;
-			      obj.rank = tds[1].innerHTML;
-			      obj.phone = tds[2].innerHTML;
-			      result.push(obj);
-		  	}
-		  	return JSON.stringify(result);
+			Save();
 		}
+
+		function Save() {
+			let text_json = '';
+
+			var table = document.getElementById('rootTable');
+			
+			var rowLength = table.rows.length;
+			for (i = 1; i < rowLength; i++){
+				var oCells = table.rows.item(i).cells;
+				var cellLength = oCells.length;
+				text_json += '{\n';
+				for(var j = 0; j < (cellLength - 1); j++){
+					var cellVal = oCells.item(j).innerHTML;
+					if (j % 2 != 0) {
+						text_json += '"description":"';
+					}
+					if (j % 2 == 0) {
+						text_json += '"id":"' + i + '",\n"progect":"';
+					}
+					text_json += cellVal;
+					if (j != (cellLength - 2)) {
+						text_json += '",\n';
+					}
+				}
+				text_json += '"}';
+				if (i != (rowLength - 1)) {
+					text_json += ',\n';
+				}
+			}
+			
+			fs.writeFile('input_File.json', text_json, (err) => {
+	        if(err) throw err;
+	        })
+		}
+		document.getElementById("closeWindow").addEventListener('click', function() { 
+			Save();
+			window.close(); 
+		}, false);
 	</script>	
 	<script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
 	<script src="https://snipp.ru/cdn/jqueryui/1.12.1/jquery-ui.min.js"></script>
