@@ -42,26 +42,53 @@
 
 		function parsingFile(data) {
 			var tbody = document.getElementById('tMainBody');
-		    var row = document.createElement("tr");
-		    var td1 = document.createElement("td");
-		    var td2 = document.createElement("td");
-		    var td3 = document.createElement("td");
+		    let c = data.split('},\n').length;
 
+		    for (var i = 1; i <= c ; i++) {
+		    	let start = '{\n"id":"' + i;
+		    	if (i != c) {
+				    let end = '"id":"' + (i + 1);
+		            let indexStart = data.indexOf(start);
+		    		let indexEnd = data.indexOf(end);
+		    		obj_json = data.slice(indexStart, indexEnd);
+		    		obj_json = obj_json.replace(`,\n{`,``);
+	    		}
 
-			btn_waiting = document.createElement('button');
-		    btn_waiting.id = 'check';
-		    btn_waiting.innerHTML = '<img src="resources/Check_mark.png" />';
-		    td3.appendChild(btn_waiting);
+	    		if (i == c) {
+				    let end = '{end}';
+		            let indexStart = data.indexOf(start);
+		    		let indexEnd = data.indexOf(end);
+		    		obj_json = data.slice(indexStart, indexEnd);
+	    		}
 
-		    btn_check = document.createElement('button');
-		    btn_check.id = 'edit';
-		    btn_check.innerHTML = '<img src="resources/Edit.png" />';
-		    td3.appendChild(btn_check);
+	    		var row = document.createElement("tr");
+			    var td1 = document.createElement("td");
+			    var td2 = document.createElement("td");
+			    var td3 = document.createElement("td");
 
-		    row.appendChild(td1);
-		    row.appendChild(td2);
-		    row.appendChild(td3);
-			tbody.appendChild(row);
+			    var text = JSON.parse(obj_json);
+	            td1.innerHTML = text.progect;
+	            td2.innerHTML = text.description;
+
+	            btn_check = document.createElement('button');
+			    btn_check.id = 'check';
+			    btn_check.addEventListener('click', function() {
+			    	result = confirm("Закрыть проект?");
+					if (result) {var a = this.closest('tr'); a.parentElement.removeChild(a); Save();}
+				  });
+			    btn_check.innerHTML = '<img src="resources/Check_mark.png" />';
+			    td3.appendChild(btn_check);
+
+			    btn_edit = document.createElement('button');
+			    btn_edit.id = 'edit';
+			    btn_edit.innerHTML = '<img src="resources/Edit.png" />';
+			    td3.appendChild(btn_edit);
+
+	            row.appendChild(td1);
+			    row.appendChild(td2);
+			    row.appendChild(td3);
+				tbody.appendChild(row);
+    		}
 		}
 
 		var isAdd = false; 
@@ -116,15 +143,19 @@
 		    td2.appendChild(document.createTextNode(input_description));
 		    var td3 = document.createElement("td");
 
-		    btn_waiting = document.createElement('button');
-		    btn_waiting.id = 'check';
-		    btn_waiting.innerHTML = '<img src="resources/Check_mark.png" />';
-		    td3.appendChild(btn_waiting);
-
 		    btn_check = document.createElement('button');
-		    btn_check.id = 'edit';
-		    btn_check.innerHTML = '<img src="resources/Edit.png" />';
+		    btn_check.id = 'check';
+		    btn_check.innerHTML = '<img src="resources/Check_mark.png" />';
+		    btn_check.addEventListener('click', function() {
+			    	result = confirm("Закрыть проект?");
+					if (result) {var a = this.closest('tr'); a.parentElement.removeChild(a); Save();}
+				  });
 		    td3.appendChild(btn_check);
+
+		    btn_edit = document.createElement('button');
+		    btn_edit.id = 'edit';
+		    btn_edit.innerHTML = '<img src="resources/Edit.png" />';
+		    td3.appendChild(btn_edit);
 
 		    row.appendChild(td1);
 		    row.appendChild(td2);
@@ -132,6 +163,7 @@
 		    tbody.appendChild(row);
 		    Save();
 		}
+
 		document.getElementById("save").onclick = function() {
 			Save();
 		}
@@ -162,6 +194,9 @@
 				text_json += '"}';
 				if (i != (rowLength - 1)) {
 					text_json += ',\n';
+				}
+				if (i == (rowLength - 1)) {
+					text_json += '{end}';
 				}
 			}
 			
