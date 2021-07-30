@@ -1,6 +1,9 @@
 const fs = require('fs');
+var isAdd = false;
+
 window.addEventListener('load', function() {
-	fs.readFile("resources/input_File.json", "utf8", function(error,data){ 
+	document.body.style.background = "#ac7e59";
+	fs.readFile("C:/Priority-list/input_File.json", "utf8", function(error,data){ 
 	if(error) throw error; 
 	parsingFile(data);
 	});
@@ -47,6 +50,9 @@ function parsingFile(data) {
 
 	    btn_edit = document.createElement('button');
 	    btn_edit.id = 'edit';
+	    btn_edit.addEventListener('click', function() {
+	    	Edit(this.closest('tr'),$(this).closest('tr').index());
+		  });
 	    btn_edit.innerHTML = '<img src="resources/Edit.png" />';
 	    td3.appendChild(btn_edit);
 
@@ -56,9 +62,22 @@ function parsingFile(data) {
 		tbody.appendChild(row);
 	}
 }
-
-var isAdd = false; 
+ 
 document.getElementById("addRow").onclick = function() {
+	AddRow();
+}
+document.getElementById("save").onclick = function() {
+	Save();
+}
+document.getElementById("settings").addEventListener('click', function() {
+	Settings();
+})
+document.getElementById("closeWindow").addEventListener('click', function() { 
+	Save();
+	window.close(); 
+}, false);
+
+function AddRow(){
 	if (!isAdd) {
 		var tbody = document.getElementById('addtbody');
 	    var row = document.createElement("tr");
@@ -75,7 +94,7 @@ document.getElementById("addRow").onclick = function() {
 	    btn_check = document.createElement('button');
 	    btn_check.id = 'add';
 	    btn_check.addEventListener('click', function() {
-		    AddMaintbl(input_progect.value, input_description.value);
+		    AddMaintbl(input_progect.value, input_description.value, -10);
 		    var a = this.closest('tr');
 		    a.parentElement.removeChild(a);
 		    isAdd = false;
@@ -90,7 +109,7 @@ document.getElementById("addRow").onclick = function() {
 		    a.parentElement.removeChild(a);
 		    isAdd = false;
 		  });
-	    btn_waiting.innerHTML = '<img src="resources/Close.png" />';
+	    btn_waiting.innerHTML = '<img src="resources/Close_add.png" />';
 	    td3.appendChild(btn_waiting);
 
 	    row.appendChild(td1);
@@ -100,14 +119,25 @@ document.getElementById("addRow").onclick = function() {
 	    isAdd = true;
 	}
 }
-function AddMaintbl(input_progect, input_description) {
+function AddMaintbl(input_progect, input_description, index) {
 	var tbody = document.getElementById('tMainBody');
-    var row = document.createElement("tr");
-    var td1 = document.createElement("td");
-    td1.appendChild(document.createTextNode(input_progect));
-    var td2 = document.createElement("td");
-    td2.appendChild(document.createTextNode(input_description));
-    var td3 = document.createElement("td");
+	if (index >= 0) {
+		var row = tbody.insertRow(index);
+		var td1 = row.insertCell(0);
+		td1.appendChild(document.createTextNode(input_progect));
+		var td2 = row.insertCell(1);
+		td2.appendChild(document.createTextNode(input_description));
+		var td3 = row.insertCell(2);
+	}
+    else {
+    	var row = document.createElement("tr");
+    	var td1 = document.createElement("td");
+    	td1.appendChild(document.createTextNode(input_progect));
+    	var td2 = document.createElement("td");
+    	td2.appendChild(document.createTextNode(input_description));
+    	var td3 = document.createElement("td");
+    }
+    
 
     btn_check = document.createElement('button');
     btn_check.id = 'check';
@@ -120,18 +150,19 @@ function AddMaintbl(input_progect, input_description) {
 
     btn_edit = document.createElement('button');
     btn_edit.id = 'edit';
+    btn_edit.addEventListener('click', function() {
+	    Edit(this.closest('tr'),$(this).closest('tr').index());
+	});
     btn_edit.innerHTML = '<img src="resources/Edit.png" />';
     td3.appendChild(btn_edit);
 
-    row.appendChild(td1);
-    row.appendChild(td2);
-    row.appendChild(td3);
-    tbody.appendChild(row);
+    if (index < 0) {
+	    row.appendChild(td1);
+	    row.appendChild(td2);
+	    row.appendChild(td3);
+	    tbody.appendChild(row);
+	}
     Save();
-}
-
-document.getElementById("save").onclick = function() {
-	Save();
 }
 
 function Save() {
@@ -165,12 +196,59 @@ function Save() {
 			text_json += '{end}';
 		}
 	}
-	
-	fs.writeFile("resources/input_File.json", text_json, (err) => {
+
+	let dir = 'C:/Priority-list';
+	fs.mkdir(dir, function(){});
+	fs.writeFile("C:/Priority-list/input_File.json", text_json, (err) => {
     if(err) throw err;
-    })
+    fs.close(file_handle);
+	})
 }
-document.getElementById("closeWindow").addEventListener('click', function() { 
-	Save();
-	window.close(); 
-}, false);
+
+function Edit(row,index){
+	var table = document.getElementById('rootTable');
+	var table_body = document.getElementById('tMainBody');
+	var newRow = table_body.insertRow(index);
+	const input_progect = row.childNodes[0];
+	const input_description = row.childNodes[1];
+
+	for(var i = 0; i < 2; i++){
+		var newCell = newRow.insertCell(i);
+		var input = document.createElement('TEXTAREA');
+		row_text = row.childNodes[i].innerHTML;
+		input.innerHTML = row_text;
+		if(i == 0) {var input_progect_new = input;}
+		if(i == 1) {var input_description_new = input;}
+		newCell.appendChild(input);
+	}
+
+	var buttonCell = newRow.insertCell(2);
+	btn_check = document.createElement('button');
+    btn_check.id = 'add';
+    btn_check.addEventListener('click', function() {
+	    AddMaintbl(input_progect_new.value, input_description_new.value, index);
+	    var a = this.closest('tr'); 
+	    a.parentElement.removeChild(a); 
+	    Save();
+	  });
+    btn_check.innerHTML = '<img src="resources/Check_mark.png" />';
+    buttonCell.appendChild(btn_check);
+
+    btn_waiting = document.createElement('button');
+    btn_waiting.id = 'wait';
+    btn_waiting.addEventListener('click', function() {
+    	AddMaintbl(input_progect.innerHTML, input_description.innerHTML, index);
+	    var a = this.closest('tr');
+	    a.parentElement.removeChild(a);
+	    isAdd = false;
+	  });
+    btn_waiting.innerHTML = '<img src="resources/Close.png" />';
+    buttonCell.appendChild(btn_waiting);
+
+    row.parentElement.removeChild(row);
+}
+
+function Settings(){
+	/*var myWindow=window.open("/settings.html","DescriptiveWindowName","resizable,scrollbars,status");*/
+	color = true;
+}

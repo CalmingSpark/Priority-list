@@ -15,7 +15,7 @@
         "download_dir": "",
         "export_dir": "output",
         "force_download": false,
-        "nw_compression_level": 0,
+        "nw_compression_level": 9,
         "nw_version": "0.54.1",
         "output_pattern": "",
         "sdk_build": false,
@@ -31,6 +31,7 @@
         "id": "Priority-list",
         "title": "Priority-list",
         "toolbar": false,
+        "transparent": false,
         "width": 800
     }
 }
