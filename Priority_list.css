@@ -1,10 +1,10 @@
-body {background: var(--body-color);} 
+body {background: var(--body-color);overflow-x:hidden;} 
 
 .sortable-table {
   float: left;
-  margin: 10px auto;
-  margin-left:7%;
-  width: 80%;
+  margin-left:3%;
+  margin-right:-20%;
+  width: 85%;
   border-collapse: separate; 
   border-spacing: 0px 12px;
 }
@@ -65,9 +65,11 @@ body {background: var(--body-color);}
 }
 
 .elements {
-  margin-top: 0px; 
-  margin-right: 10px; 
+  width: 15%;
+  margin-top: 0px;  
   float:right;
+  margin-left:-20%;
+  margin-right:-2%;
 }
 
 
@@ -75,17 +77,16 @@ body {background: var(--body-color);}
 
 .added-table {
   float: left;
-  margin: 10px auto;
   margin-left:7%;
-  width: 80%;
+  width: 75%;
   border-collapse: separate; 
   border-spacing: 0px 12px;
 }
 .added-table td {
   font-family: "Arial";
   font-weight:bold;
-  background: #387051;   
-  color: #ddd;
+  background:  var(--addt-color_td);   
+  color: var(--addt-colorText_td);
   overflow: hidden;
   padding: 6px 10px;
   font-size: 20px;
@@ -94,7 +95,6 @@ body {background: var(--body-color);}
 }
 
 .added-table > tbody > tr > td:first-child {
-  color: #ddd;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
   width: 20%;
@@ -112,21 +112,14 @@ body {background: var(--body-color);}
   border-bottom-left-radius: 30px;
   width: 10%;
   text-align: center;
-  background: #468d66;
-}
-
-.added-table th {
-  padding: 10px;
-  border: 1px solid #ddd;
-  background: #efefef;
-  font-weight: bold;
+  background: var(--addt-color_td_last);
 }
 
 textarea {
   font-family: "Arial";
   font-weight:bold;
   background-color: transparent;  
-  color: #ddd;
+  color: var(--textarea-colorText);
   overflow: hidden;
   padding: 6px 10px;
   font-size: 20px;
