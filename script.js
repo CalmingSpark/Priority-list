@@ -1,5 +1,6 @@
 const fs = require('fs');
 var isAdd = false;
+var isEdit = false;
 
 window.addEventListener('load', function() {
 	document.body.style.background = "#ac7e59";
@@ -183,7 +184,8 @@ function Save() {
 			if (j % 2 == 0) {
 				text_json += '"id":"' + i + '",\n"progect":"';
 			}
-			text_json += cellVal;
+			cellVal = cellVal.replace(`<textarea>`,``);
+			text_json += cellVal.replace(`</textarea>`,``);
 			if (j != (cellLength - 2)) {
 				text_json += '",\n';
 			}
@@ -206,46 +208,51 @@ function Save() {
 }
 
 function Edit(row,index){
-	var table = document.getElementById('rootTable');
-	var table_body = document.getElementById('tMainBody');
-	var newRow = table_body.insertRow(index);
-	const input_progect = row.childNodes[0];
-	const input_description = row.childNodes[1];
+	if (!isEdit){
+		var table = document.getElementById('rootTable');
+		var table_body = document.getElementById('tMainBody');
+		var newRow = table_body.insertRow(index);
+		const input_progect = row.childNodes[0];
+		const input_description = row.childNodes[1];
 
-	for(var i = 0; i < 2; i++){
-		var newCell = newRow.insertCell(i);
-		var input = document.createElement('TEXTAREA');
-		row_text = row.childNodes[i].innerHTML;
-		input.innerHTML = row_text;
-		if(i == 0) {var input_progect_new = input;}
-		if(i == 1) {var input_description_new = input;}
-		newCell.appendChild(input);
+		for(var i = 0; i < 2; i++){
+			var newCell = newRow.insertCell(i);
+			var input = document.createElement('TEXTAREA');
+			row_text = row.childNodes[i].innerHTML;
+			input.innerHTML = row_text;
+			if(i == 0) {var input_progect_new = input;}
+			if(i == 1) {var input_description_new = input;}
+			newCell.appendChild(input);
+		}
+
+		var buttonCell = newRow.insertCell(2);
+		btn_check = document.createElement('button');
+	    btn_check.id = 'add';
+	    btn_check.addEventListener('click', function() {
+		    AddMaintbl(input_progect_new.value, input_description_new.value, index);
+		    var a = this.closest('tr'); 
+		    a.parentElement.removeChild(a); 
+		    Save();
+		    isEdit = false;
+		  });
+	    btn_check.innerHTML = '<img src="resources/Check_mark.png" />';
+	    buttonCell.appendChild(btn_check);
+
+	    btn_cancel = document.createElement('button');
+	    btn_cancel.id = 'cancel';
+	    btn_cancel.addEventListener('click', function() {
+	    	AddMaintbl(input_progect.innerHTML, input_description.innerHTML, index);
+		    var a = this.closest('tr');
+		    a.parentElement.removeChild(a);
+		    Save();
+		    isEdit = false;
+		  });
+	    btn_cancel.innerHTML = '<img src="resources/Close.png" />';
+	    buttonCell.appendChild(btn_cancel);
+
+	    row.parentElement.removeChild(row);
+	    isEdit = true;
 	}
-
-	var buttonCell = newRow.insertCell(2);
-	btn_check = document.createElement('button');
-    btn_check.id = 'add';
-    btn_check.addEventListener('click', function() {
-	    AddMaintbl(input_progect_new.value, input_description_new.value, index);
-	    var a = this.closest('tr'); 
-	    a.parentElement.removeChild(a); 
-	    Save();
-	  });
-    btn_check.innerHTML = '<img src="resources/Check_mark.png" />';
-    buttonCell.appendChild(btn_check);
-
-    btn_waiting = document.createElement('button');
-    btn_waiting.id = 'wait';
-    btn_waiting.addEventListener('click', function() {
-    	AddMaintbl(input_progect.innerHTML, input_description.innerHTML, index);
-	    var a = this.closest('tr');
-	    a.parentElement.removeChild(a);
-	    isAdd = false;
-	  });
-    btn_waiting.innerHTML = '<img src="resources/Close.png" />';
-    buttonCell.appendChild(btn_waiting);
-
-    row.parentElement.removeChild(row);
 }
 
 function Settings(){
