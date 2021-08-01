@@ -3,7 +3,6 @@ var isAdd = false;
 var isEdit = false;
 
 window.addEventListener('load', function() {
-	document.body.style.background = "#ac7e59";
 	fs.readFile("C:/Priority-list/input_File.json", "utf8", function(error,data){ 
 	if(error) throw error; 
 	parsingFile(data);
@@ -12,6 +11,7 @@ window.addEventListener('load', function() {
 
 function parsingFile(data) {
 	var tbody = document.getElementById('tMainBody');
+	
     let c = data.split('},\n').length;
 
     for (var i = 1; i <= c ; i++) {
@@ -46,7 +46,7 @@ function parsingFile(data) {
 	    	result = confirm("Закрыть проект?");
 			if (result) {var a = this.closest('tr'); a.parentElement.removeChild(a); Save();}
 		  });
-	    btn_check.innerHTML = '<img src="resources/Check_mark.png" />';
+	    btn_check.innerHTML = '<img src="resources/default/Check_mark.png" />';
 	    td3.appendChild(btn_check);
 
 	    btn_edit = document.createElement('button');
@@ -54,13 +54,14 @@ function parsingFile(data) {
 	    btn_edit.addEventListener('click', function() {
 	    	Edit(this.closest('tr'),$(this).closest('tr').index());
 		  });
-	    btn_edit.innerHTML = '<img src="resources/Edit.png" />';
+	    btn_edit.innerHTML = '<img src="resources/default/Edit.png" />';
 	    td3.appendChild(btn_edit);
 
         row.appendChild(td1);
 	    row.appendChild(td2);
 	    row.appendChild(td3);
 		tbody.appendChild(row);
+		SetColors('default');
 	}
 }
  
@@ -100,7 +101,7 @@ function AddRow(){
 		    a.parentElement.removeChild(a);
 		    isAdd = false;
 		  });
-	    btn_check.innerHTML = '<img src="resources/Check_mark_add.png" />';
+	    btn_check.innerHTML = '<img src="resources/default/Check_mark_add.png" />';
 	    td3.appendChild(btn_check);
 
 	    btn_waiting = document.createElement('button');
@@ -110,7 +111,7 @@ function AddRow(){
 		    a.parentElement.removeChild(a);
 		    isAdd = false;
 		  });
-	    btn_waiting.innerHTML = '<img src="resources/Close_add.png" />';
+	    btn_waiting.innerHTML = '<img src="resources/default/Close_add.png" />';
 	    td3.appendChild(btn_waiting);
 
 	    row.appendChild(td1);
@@ -142,7 +143,7 @@ function AddMaintbl(input_progect, input_description, index) {
 
     btn_check = document.createElement('button');
     btn_check.id = 'check';
-    btn_check.innerHTML = '<img src="resources/Check_mark.png" />';
+    btn_check.innerHTML = '<img src="resources/default/Check_mark.png" />';
     btn_check.addEventListener('click', function() {
 	    	result = confirm("Закрыть проект?");
 			if (result) {var a = this.closest('tr'); a.parentElement.removeChild(a); Save();}
@@ -154,7 +155,7 @@ function AddMaintbl(input_progect, input_description, index) {
     btn_edit.addEventListener('click', function() {
 	    Edit(this.closest('tr'),$(this).closest('tr').index());
 	});
-    btn_edit.innerHTML = '<img src="resources/Edit.png" />';
+    btn_edit.innerHTML = '<img src="resources/default/Edit.png" />';
     td3.appendChild(btn_edit);
 
     if (index < 0) {
@@ -164,6 +165,7 @@ function AddMaintbl(input_progect, input_description, index) {
 	    tbody.appendChild(row);
 	}
     Save();
+    SetColors('default');
 }
 
 function Save() {
@@ -235,7 +237,7 @@ function Edit(row,index){
 		    Save();
 		    isEdit = false;
 		  });
-	    btn_check.innerHTML = '<img src="resources/Check_mark.png" />';
+	    btn_check.innerHTML = '<img src="resources/default/Check_mark.png" />';
 	    buttonCell.appendChild(btn_check);
 
 	    btn_cancel = document.createElement('button');
@@ -247,7 +249,7 @@ function Edit(row,index){
 		    Save();
 		    isEdit = false;
 		  });
-	    btn_cancel.innerHTML = '<img src="resources/Close.png" />';
+	    btn_cancel.innerHTML = '<img src="resources/default/Close.png" />';
 	    buttonCell.appendChild(btn_cancel);
 
 	    row.parentElement.removeChild(row);
@@ -255,7 +257,37 @@ function Edit(row,index){
 	}
 }
 
+function SetColors(styleColors){
+	var body = document.getElementById('MainBody');
+	var tthead = document.getElementById('tMainThead');
+	var tbody = document.getElementById('tMainBody');
+	var tbodyLast = document.querySelector('tbody tr:last-child td:last-child');
+
+	if(styleColors == 'default'){
+		body.style.setProperty('--body-color', "#ac7e59");
+		tbody.style.setProperty('--maint-color_td', "#705138");
+		tbody.style.setProperty('--maint-colorText_td', "#ddd");
+		tthead.style.setProperty('--maint-color_thead', "#473424");
+		tthead.style.setProperty('--maint-colorText_thead', "#ddd");
+		tbodyLast.style.setProperty('--maint-color_td_last', "#8d6646");
+	}
+
+	if(styleColors == 'gray'){
+		body.style.setProperty('--body-color', "#cfd0d0");
+		tbody.style.setProperty('--maint-color_td', "#e3e4e4");
+		tbody.style.setProperty('--maint-colorText_td', "#040404");
+		tthead.style.setProperty('--maint-color_thead', "#b6b8b8");
+		tthead.style.setProperty('--maint-colorText_thead', "#040404");
+		var rowLength = tbody.rows.length;
+		for (i = 0; i < rowLength; i++){
+			var oCells = tbody.rows.item(i).cells;
+			var cellVal = oCells.item(2);
+			cellVal.style.setProperty('--maint-color_td_last', "#efefef");
+		}
+	}
+}
+
 function Settings(){
 	/*var myWindow=window.open("/settings.html","DescriptiveWindowName","resizable,scrollbars,status");*/
-	color = true;
+	SetColors('gray');
 }

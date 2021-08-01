@@ -1,4 +1,4 @@
-
+body {background: var(--body-color);} 
 
 .sortable-table {
   float: left;
@@ -11,8 +11,8 @@
 .sortable-table td {
   font-family: "Arial";
   font-weight:bold;
-  background: #705138;   
-  color: #ddd;
+  background: var(--maint-color_td);   /*"#e01f2d" red*/
+  color: var(--maint-colorText_td);
   overflow: hidden;
   padding: 6px 10px;
   font-size: 20px;
@@ -21,9 +21,9 @@
 }
 .sortable-table > thead > tr > th{
   font-family: "Arial";
-  color: #ddd;
+  color: var(--maint-colorText_thead);
   font-size: 20px;
-  background-color: #473424;  
+  background-color: var(--maint-color_thead);  
   border:none;  
 }
 
@@ -38,7 +38,6 @@
 }
 
 .sortable-table > tbody > tr > td:first-child {
-  color: #ddd;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
   width: 20%;
@@ -56,13 +55,12 @@
   border-bottom-left-radius: 30px;
   width: 10%;
   text-align: center;
-  background: #8d6646;
+  background: var(--maint-color_td_last);
 }
 
 .sortable-table th {
   padding: 10px;
   border: 1px solid #ddd;
-  background: #efefef;
   font-weight: bold;
 }
 
