@@ -3,18 +3,23 @@ var isAdd = false;
 var isEdit = false;
 var styleColors = 'default';
 
-var btn_checkHTML = '<img src="resources/default/Check_mark.png" />';
-var btn_editHTML = '<img src="resources/default/Edit.png" />';
-var btn_cancelHTML = '<img src="resources/default/Close.png" />';
-var btn_checkAddHTML = '<img src="resources/default/Check_mark_add.png" />';
-var btn_waitingHTML = '<img src="resources/default/Close_add.png" />';
+var btn_checkHTML = '<img src="resources/Check_mark.png" />';
+var btn_editHTML = '<img src="resources/Edit.png" />';
+var btn_cancelHTML = '<img src="resources/Close.png" />';
+var btn_checkAddHTML = '<img src="resources/Check_mark_add.png" />';
+var btn_waitingHTML = '<img src="resources/Close_add.png" />';
 
 window.addEventListener('load', function() {
+	var body = document.getElementById('MainBody');
+	var tthead = document.getElementById('tMainThead');
+	body.style.setProperty('--body-color', "#ac7e59");
+	tthead.style.setProperty('--maint-color_thead', "#473424");
+	tthead.style.setProperty('--maint-colorText_thead', "#ddd");
+
 	fs.readFile("C:/Priority-list/input_File.json", "utf8", function(error,data){ 
 	if(error) throw error; 
 	parsingFile(data);
 	});
-	SetColors('default');
 })
 
 function parsingFile(data) {
@@ -53,7 +58,7 @@ function parsingFile(data) {
 	    	result = confirm("Закрыть проект?");
 			if (result) {var a = this.closest('tr'); a.parentElement.removeChild(a); Save();}
 		  });
-	    btn_check.innerHTML = '<img src="resources/default/Check_mark.png" />';
+	    btn_check.innerHTML = btn_checkHTML;
 	    td3.appendChild(btn_check);
 
 	    btn_edit = document.createElement('button');
@@ -61,15 +66,15 @@ function parsingFile(data) {
 	    btn_edit.addEventListener('click', function() {
 	    	Edit(this.closest('tr'),$(this).closest('tr').index());
 		  });
-	    btn_edit.innerHTML = '<img src="resources/default/Edit.png" />';
+	    btn_edit.innerHTML = btn_editHTML;
 	    td3.appendChild(btn_edit);
 
         row.appendChild(td1);
 	    row.appendChild(td2);
 	    row.appendChild(td3);
 		tbody.appendChild(row);
-		SetColors('default');
 	}
+	SetColors('default');
 }
  
 document.getElementById("addRow").onclick = function() {
@@ -167,6 +172,8 @@ function AddMaintbl(input_progect, input_description, index) {
 
     if (styleColors == 'default') {td3.style.setProperty('--maint-color_td_last', "#8d6646");}
 	if (styleColors == 'gray') {td3.style.setProperty('--maint-color_td_last', "#efefef");}
+	if (styleColors == 'blue') {td3.style.setProperty('--maint-color_td_last', "#cfe8ea");}
+	if (styleColors == 'dark') {td3.style.setProperty('--maint-color_td_last', "#30302f");}
 
     if (index < 0) {
 	    row.appendChild(td1);
@@ -232,7 +239,8 @@ function Edit(row,index){
 			row_text = row.childNodes[i].innerHTML;
 			input.innerHTML = row_text;
 			if (styleColors == 'default'){input.style.setProperty('--textarea-colorText', "#ddd");}
-			if (styleColors == 'gray'){input.style.setProperty('--textarea-colorText', "#040404");}
+			if (styleColors == 'gray' || styleColors == 'blue' || styleColors == 'dark')
+				{input.style.setProperty('--textarea-colorText', "#040404");}
 			if(i == 0) {var input_progect_new = input;}
 			if(i == 1) {var input_description_new = input;}
 			newCell.appendChild(input);
@@ -264,6 +272,8 @@ function Edit(row,index){
 	    buttonCell.appendChild(btn_cancel);
 	    if (styleColors == 'default') {buttonCell.style.setProperty('--maint-color_td_last', "#8d6646");}
 	    if (styleColors == 'gray') {buttonCell.style.setProperty('--maint-color_td_last', "#efefef");}
+	    if (styleColors == 'blue') {buttonCell.style.setProperty('--maint-color_td_last', "#cfe8ea");}
+	    if (styleColors == 'dark') {buttonCell.style.setProperty('--maint-color_td_last', "#30302f");}
 
 	    row.parentElement.removeChild(row);
 	    isEdit = true;
@@ -280,6 +290,7 @@ function SetColors(styleColors){
 
 	if(styleColors == 'default'){
 		body.style.setProperty('--body-color', "#ac7e59");
+		body.style.setProperty('--body-img',"none");
 		tbody.style.setProperty('--maint-color_td', "#705138");
 		tbody.style.setProperty('--maint-colorText_td', "#ddd");
 		tthead.style.setProperty('--maint-color_thead', "#473424");
@@ -290,8 +301,6 @@ function SetColors(styleColors){
 			var oCells = tbody.rows.item(i).cells;
 			var cellVal = oCells.item(2);
 			cellVal.style.setProperty('--maint-color_td_last', "#8d6646");
-			cellVal.childNodes[0].innerHTML = '<img src="resources/default/Check_mark.png" />';
-			cellVal.childNodes[1].innerHTML = '<img src="resources/default/Edit.png" />';
 		}
 
 		document.getElementById('closeWindowImg').src="resources/default/CloseWindow.png";
@@ -307,6 +316,7 @@ function SetColors(styleColors){
 
 	if(styleColors == 'gray'){
 		body.style.setProperty('--body-color', "#cfd0d0");
+		body.style.setProperty('--body-img',"none");
 		tbody.style.setProperty('--maint-color_td', "#e3e4e4");
 		tbody.style.setProperty('--maint-colorText_td', "#040404");
 		tthead.style.setProperty('--maint-color_thead', "#b6b8b8");
@@ -316,8 +326,6 @@ function SetColors(styleColors){
 			var oCells = tbody.rows.item(i).cells;
 			var cellVal = oCells.item(2);
 			cellVal.style.setProperty('--maint-color_td_last', "#efefef");
-			cellVal.childNodes[0].innerHTML = '<img src="resources/gray/Check_mark.png" />';
-			cellVal.childNodes[1].innerHTML = '<img src="resources/gray/Edit.png" />';
 		}
 
 		document.getElementById('closeWindowImg').src="resources/gray/CloseWindow.png";
@@ -330,27 +338,73 @@ function SetColors(styleColors){
 		tbodyAdd.style.setProperty('--addt-colorText_td', "#040404");
 		tbodyAddLast.style.setProperty('--addt-color_td_last' , "#a3d1b7");
 	}
+	if(styleColors == 'dark') {
+		body.style.setProperty('--body-img',"url(resources/dark/dark.jpg)");
+		tbody.style.setProperty('--maint-color_td', "#262625");
+		tbody.style.setProperty('--maint-colorText_td', "#37e03d");
+		tthead.style.setProperty('--maint-color_thead', "#353534");
+		tthead.style.setProperty('--maint-colorText_thead', "#37e03d");
+		var rowLength = tbody.rows.length;
+		for (i = 0; i < rowLength; i++){
+			var oCells = tbody.rows.item(i).cells;
+			var cellVal = oCells.item(2);
+			cellVal.style.setProperty('--maint-color_td_last', "#30302f");
+		}
+
+		document.getElementById('closeWindowImg').src="resources/dark/CloseWindow.png";
+		document.getElementById('addRowImg').src="resources/dark/Add.png";
+		document.getElementById('waitingImg').src="resources/dark/Waiting.png";
+		document.getElementById('settingsImg').src="resources/dark/Settings.png";
+		document.getElementById('saveImg').src="resources/dark/Save.png";
+
+		tbodyAdd.style.setProperty('--addt-color_td', "#8bc5a5");
+		tbodyAdd.style.setProperty('--addt-colorText_td', "#040404");
+		tbodyAddLast.style.setProperty('--addt-color_td_last' , "#a3d1b7");
+	}
+	if(styleColors == 'blue') {
+		body.style.setProperty('--body-img',"url(resources/blue/blue.jpg)");
+		tbody.style.setProperty('--maint-color_td', "#add8dc");
+		tbody.style.setProperty('--maint-colorText_td', "#040404");
+		tthead.style.setProperty('--maint-color_thead', "#7bc0c7");
+		tthead.style.setProperty('--maint-colorText_thead', "#040404");
+		var rowLength = tbody.rows.length;
+		for (i = 0; i < rowLength; i++){
+			var oCells = tbody.rows.item(i).cells;
+			var cellVal = oCells.item(2);
+			cellVal.style.setProperty('--maint-color_td_last', "#cfe8ea");
+		}
+
+		document.getElementById('closeWindowImg').src="resources/blue/CloseWindow.png";
+		document.getElementById('addRowImg').src="resources/blue/Add.png";
+		document.getElementById('waitingImg').src="resources/blue/Waiting.png";
+		document.getElementById('settingsImg').src="resources/blue/Settings.png";
+		document.getElementById('saveImg').src="resources/blue/Save.png";
+
+		tbodyAdd.style.setProperty('--addt-color_td', "#8bc5a5");
+		tbodyAdd.style.setProperty('--addt-colorText_td', "#040404");
+		tbodyAddLast.style.setProperty('--addt-color_td_last' , "#a3d1b7");
+	}
 }
 
 function Settings(){
 	/*var myWindow=window.open("/settings.html","DescriptiveWindowName","resizable,scrollbars,status");*/
 	if(styleColors == 'default') {
 		styleColors = 'gray';
-		btn_checkHTML = '<img src="resources/gray/Check_mark.png" />';
-		btn_editHTML = '<img src="resources/gray/Edit.png" />';
-		btn_cancelHTML = '<img src="resources/gray/Close.png" />';
-		btn_checkAddHTML = '<img src="resources/gray/Check_mark_add.png" />';
-		btn_waitingHTML = '<img src="resources/gray/Close_add.png" />';
 		SetColors(styleColors);
 		return;
 	}
 	if(styleColors == 'gray') {
+		styleColors = 'blue';
+		SetColors(styleColors);
+		return;
+	}
+	if(styleColors == 'blue') {
+		styleColors = 'dark';
+		SetColors(styleColors);
+		return;
+	}
+	if(styleColors == 'dark') {
 		styleColors = 'default';
-		btn_checkHTML = '<img src="resources/default/Check_mark.png" />';
-		btn_editHTML = '<img src="resources/default/Edit.png" />';
-		btn_cancelHTML = '<img src="resources/default/Close.png" />';
-		btn_checkAddHTML = '<img src="resources/default/Check_mark_add.png" />';
-		btn_waitingHTML = '<img src="resources/default/Close_add.png" />';
 		SetColors(styleColors);
 		return;
 	}

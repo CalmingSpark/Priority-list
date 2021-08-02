@@ -1,4 +1,8 @@
-body {background: var(--body-color);overflow-x:hidden;} 
+body {
+  background: var(--body-color);
+  overflow-x:hidden;
+  background-image: var(--body-img);
+} 
 
 .sortable-table {
   float: left;
@@ -77,8 +81,9 @@ body {background: var(--body-color);overflow-x:hidden;}
 
 .added-table {
   float: left;
-  margin-left:7%;
-  width: 75%;
+  margin-left:3%;
+  margin-right:-20%;
+  width: 85%;
   border-collapse: separate; 
   border-spacing: 0px 12px;
 }

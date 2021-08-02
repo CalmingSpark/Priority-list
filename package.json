@@ -13,7 +13,7 @@
         "blacklist": "",
         "custom_script": "",
         "download_dir": "",
-        "export_dir": "output",
+        "export_dir": "C:/Users/Zver/Desktop",
         "force_download": false,
         "nw_compression_level": 9,
         "nw_version": "0.54.1",
