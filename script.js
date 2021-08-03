@@ -2,6 +2,12 @@ const fs = require('fs');
 var isAdd = false;
 var isEdit = false;
 var styleColors = 'default';
+var myOpenedWindow = window;
+var myOpenWindow = function(URL) {
+    var myOpenedWindow = myOpenedWindow || window.open(URL, "MyNewWindow");
+    myOpenedWindow.location.href= URL;
+    myOpenedWindow.focus();
+}
 
 var btn_checkHTML = '<img src="resources/Check_mark.png" />';
 var btn_editHTML = '<img src="resources/Edit.png" />';
@@ -16,10 +22,18 @@ window.addEventListener('load', function() {
 	tthead.style.setProperty('--maint-color_thead', "#473424");
 	tthead.style.setProperty('--maint-colorText_thead', "#ddd");
 
-	fs.readFile("C:/Priority-list/input_File.json", "utf8", function(error,data){ 
-	if(error) throw error; 
-	parsingFile(data);
+	if(myOpenedWindow.name == "MyNewWindow"){
+		fs.readFile("C:/Priority-list/input_File_wait.json", "utf8", function(error,data){ 
+		if(error) throw error; 
+		parsingFile(data);
+		});
+	}
+	else{
+		fs.readFile("C:/Priority-list/input_File.json", "utf8", function(error,data){ 
+		if(error) throw error; 
+		parsingFile(data);
 	});
+	}
 })
 
 function parsingFile(data) {
@@ -73,6 +87,7 @@ function parsingFile(data) {
 	    row.appendChild(td2);
 	    row.appendChild(td3);
 		tbody.appendChild(row);
+
 	}
 	SetColors('default');
 }
@@ -80,16 +95,16 @@ function parsingFile(data) {
 document.getElementById("addRow").onclick = function() {
 	AddRow();
 }
+document.getElementById("waiting").onclick = function() {
+	myOpenWindow('waiting.html')
+}
 document.getElementById("save").onclick = function() {
 	Save();
 }
 document.getElementById("settings").addEventListener('click', function() {
 	Settings();
 })
-document.getElementById("closeWindow").addEventListener('click', function() { 
-	Save();
-	window.close(); 
-}, false);
+
 
 function AddRow(){
 	if (!isAdd) {
@@ -219,10 +234,18 @@ function Save() {
 
 	let dir = 'C:/Priority-list';
 	fs.mkdir(dir, function(){});
-	fs.writeFile("C:/Priority-list/input_File.json", text_json, (err) => {
-    if(err) throw err;
-    fs.close(file_handle);
-	})
+	if(myOpenedWindow.name == "MyNewWindow"){
+		fs.writeFile("C:/Priority-list/input_File_wait.json", text_json, (err) => {
+	    if(err) throw err;
+	    fs.close(file_handle);
+		})
+	}
+	else {
+		fs.writeFile("C:/Priority-list/input_File.json", text_json, (err) => {
+	    if(err) throw err;
+	    fs.close(file_handle);
+		})
+	}
 }
 
 function Edit(row,index){
@@ -305,8 +328,10 @@ function SetColors(styleColors){
 
 		document.getElementById('closeWindowImg').src="resources/default/CloseWindow.png";
 		document.getElementById('addRowImg').src="resources/default/Add.png";
-		document.getElementById('waitingImg').src="resources/default/Waiting.png";
-		document.getElementById('settingsImg').src="resources/default/Settings.png";
+		if(!myOpenedWindow.name == "MyNewWindow"){
+			document.getElementById('waitingImg').src="resources/default/Waiting.png";
+			document.getElementById('settingsImg').src="resources/default/Settings.png";
+		}
 		document.getElementById('saveImg').src="resources/default/Save.png";
 
 		tbodyAdd.style.setProperty('--addt-color_td', "#387051");

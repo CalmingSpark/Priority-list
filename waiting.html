@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 	<meta charset='UTF-8'>
-	<title>PrioList</title>
+	<title>WaitingList</title>
 	<link href="Priority_list.css" rel="stylesheet" type="text/css">
 <body id="MainBody"> 
 	<table class="sortable-table" id="rootTable">
 	<thead id="tMainThead">
 		<tr>
 			<th>Проект</th>
-			<th>Описание задачи</th>
+			<th>Причина ожидания</th>
 			<th></th>
 		</tr>
 	</thead>
@@ -19,8 +19,6 @@
 		<ul>
 		<li><button id = "closeWindow" onclick=" Save(); self.close()"><img id="closeWindowImg" src="resources/default/CloseWindow.png"></button></li>
 		<li><button id = "addRow"><img id="addRowImg" src="resources/default/Add.png"></button></li>
-		<li><button id = "waiting"><img id="waitingImg" src="resources/default/Waiting.png"></button></li>
-		<li><button id = "settings"><img id="settingsImg" src="resources/default/Settings.png"></button></li>
 		<li><button id = "save"><img id="saveImg" src="resources/default/Save.png"></button></li>
 		</ul>
 	</div><div>
@@ -29,20 +27,8 @@
 		<tbody id="addtbody">
 		</tbody>
 	</table>
-	<script src="/script.js"></script>
+	<script src="script.js"></script>
 	<script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
 	<script src="https://snipp.ru/cdn/jqueryui/1.12.1/jquery-ui.min.js"></script>
-	<script>
-	var fixHelper = function(e, ui) {
-		ui.children().each(function() {
-			$(this).width($(this).width());
-		});
-		return ui;
-	};	
-
-	$('.sortable-table tbody').sortable({
-		helper: fixHelper
-	});
-	</script>
 </body>
 </html>
